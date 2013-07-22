@@ -24,6 +24,7 @@
 				if ( isset( $_REQUEST['score'] ) ) {
 					// check secondary signature to prevent cheating
 					// should probably copy $_REQUEST, remove signature, then concat sorted by keys to uniformly generate the signed request payload
+					// or just pass in all parameters as one big base 64 json and concat that with the fb signed request
 					$signed_request = new SignedRequest( $_REQUEST['signature'], $_REQUEST['signed_request'] . $_REQUEST['score'] );
 					if ( $signed_request->isValid() ) {
 						$user->addScore( $_REQUEST['score'] );
