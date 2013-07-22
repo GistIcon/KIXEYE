@@ -7,22 +7,29 @@
 	$response = new stdClass();
 	$response->errorCode = '0';
 	
-	$signed_request = new SignedRequest( $_REQUEST['signed_request'] );
+	$facebook_signed_request = new FacebookSignedRequest( $_REQUEST['signed_request'] );
 	
-	if ( !$signed_request->isValid() ) {
+	if ( !$facebook_signed_request->isValid() ) {
 		$response->errorCode = '1';
-		$response->errorString = 'Invalid signed request.';
+		$response->errorString = 'Invalid Facebook signed request.';
 	} else {
-		if ( !$signed_request->isSignedIn() ) {
+		if ( !$facebook_signed_request->isSignedIn() ) {
 			$response->errorCode = '2';
 			$response->errorString = 'User not signed in.';
 		} else {
 			$data_store = new DataStore( PDO_CONNECTION_SETTINGS, PDO_USER_NAME, PDO_PASSWORD );
-			$user = new User( $signed_request->userID(), $data_store );
+			$user = new User( $facebook_signed_request->userID(), $data_store );
 			// operation determined by request method and available parameters
 			if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
 				if ( isset( $_REQUEST['score'] ) ) {
-					$user->addScore( $_REQUEST['score'] );
+					// check secondary signature to prevent cheating
+					$signed_request = new SignedRequest( $_REQUEST['signature'], $_REQUEST['signed_request'] . $_REQUEST['score'] );
+					if ( $signed_request->isValid() ) {
+						$user->addScore( $_REQUEST['score'] );
+					} else {
+						$response->errorCode = '5';
+						$response->errorString = 'Invalid signed request.';
+					}
 				} else {
 					$response->errorCode = '3';
 					$response->errorString = 'Invalid request structure.';
