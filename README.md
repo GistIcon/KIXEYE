@@ -3,7 +3,7 @@ KIXEYE
 
 KIXEYE Coding Challenge
 
-The public_html folder is currently live at the URL dustinhendricks.com/kixeye for you to try each file for yourself.
+The public_html folder is currently live at the URL dustinhendricks.com/kixeye/public_html/ for you to try each file for yourself.
 
 **RESTful API**
 
