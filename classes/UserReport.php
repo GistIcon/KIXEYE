@@ -40,15 +40,16 @@
 				.' WHERE 1'
 				.' GROUP BY users.facebookID'
 				.' ORDER BY topScoreImprovement DESC', 10 );
+			$this_sunday = strtotime( 'This Sunday' );
 			return $this->dataStore->queryPrepared( $query, array(
-				date( 'Y-m-d', strtotime( '-1 week' ) ),
-				date( 'Y-m-d' ),
-				date( 'Y-m-d', strtotime( '-2 weeks' ) ),
-				date( 'Y-m-d', strtotime( '-1 week' ) ),
-				date( 'Y-m-d', strtotime( '-1 week' ) ),
-				date( 'Y-m-d' ),
-				date( 'Y-m-d', strtotime( '-2 weeks' ) ),
-				date( 'Y-m-d', strtotime( '-1 week' ) )
+				date( 'Y-m-d', strtotime( '-1 week', $this_sunday ) ),
+				date( 'Y-m-d', $this_sunday ),
+				date( 'Y-m-d', strtotime( '-2 weeks', $this_sunday ) ),
+				date( 'Y-m-d', strtotime( '-1 week', $this_sunday ) ),
+				date( 'Y-m-d', strtotime( '-1 week', $this_sunday ) ),
+				date( 'Y-m-d', $this_sunday ),
+				date( 'Y-m-d', strtotime( '-2 weeks', $this_sunday ) ),
+				date( 'Y-m-d', strtotime( '-1 week', $this_sunday ) )
 			) );
 		}
 	}
