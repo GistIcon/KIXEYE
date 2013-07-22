@@ -9,8 +9,8 @@
 	/* applictaion constants */
 	// db
 	define( 'PDO_CONNECTION_SETTINGS', 'mysql:host=localhost;dbname=spotless_kixeye' );
-	define( 'PDO_USER_NAME', 'spotless_spot' );
-	define( 'PDO_PASSWORD', 'ghW8@1hT' );
+	define( 'PDO_USER_NAME', 'someuser' );
+	define( 'PDO_PASSWORD', 'somepassword' );
 	// fb
 	define( 'FB_APP_ID', '126767144061773' );
 	define( 'FB_APP_SECRET', '21db65a65e204cca7b5afcbad91fea59' );
