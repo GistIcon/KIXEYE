@@ -32,24 +32,29 @@
 		public function topImprovedScores() {
 			$query = $this->dataStore->limitQuery( 'SELECT'
 				.' users.facebookID,'
-				.' MAX( CASE WHEN userScores.date BETWEEN ? AND ? THEN userScores.score ELSE 0 END ) AS thisWeeksTopScore,'
-				.' MAX( CASE WHEN userScores.date BETWEEN ? AND ? THEN userScores.score ELSE 0 END ) AS lastWeeksTopScore,'
-				.' MAX( CASE WHEN userScores.date BETWEEN ? AND ? THEN userScores.score ELSE 0 END ) - MAX( CASE WHEN userScores.date BETWEEN ? AND ? THEN userScores.score ELSE 0 END ) AS topScoreImprovement'
+				.' MAX( CASE WHEN userScores.date > ? AND userScores.date <= ? THEN userScores.score ELSE 0 END ) AS thisWeeksTopScore,'
+				.' MAX( CASE WHEN userScores.date > ? AND userScores.date <= ? THEN userScores.score ELSE 0 END ) AS lastWeeksTopScore,'
+				.' MAX( CASE WHEN userScores.date > ? AND userScores.date <= ? THEN userScores.score ELSE 0 END ) - MAX( CASE WHEN userScores.date BETWEEN ? AND ? THEN userScores.score ELSE 0 END ) AS topScoreImprovement'
 				.' FROM users'
 				.' LEFT JOIN userScores ON users.facebookID = userScores.userFacebookID'
 				.' WHERE 1'
 				.' GROUP BY users.facebookID'
 				.' ORDER BY topScoreImprovement DESC', 10 );
-			$this_sunday = strtotime( 'This Sunday' );
+			$this_sunday = strtotime( 'this sunday' );
+			$one_week_ago_this_sunday = strtotime( '-1 week', $this_sunday );
+			$two_weeks_ago_this_sunday = strtotime( '-2 weeks', $this_sunday );
+			$this_sunday = date( 'Y-m-d', $this_sunday );
+			$one_week_ago_this_sunday = date( 'Y-m-d', $one_week_ago_this_sunday );
+			$two_weeks_ago_this_sunday = date( 'Y-m-d', $two_weeks_ago_this_sunday );
 			return $this->dataStore->queryPrepared( $query, array(
-				date( 'Y-m-d', strtotime( '-1 week', $this_sunday ) ),
-				date( 'Y-m-d', $this_sunday ),
-				date( 'Y-m-d', strtotime( '-2 weeks', $this_sunday ) ),
-				date( 'Y-m-d', strtotime( '-1 week', $this_sunday ) ),
-				date( 'Y-m-d', strtotime( '-1 week', $this_sunday ) ),
-				date( 'Y-m-d', $this_sunday ),
-				date( 'Y-m-d', strtotime( '-2 weeks', $this_sunday ) ),
-				date( 'Y-m-d', strtotime( '-1 week', $this_sunday ) )
+				$one_week_ago_this_sunday,
+				$this_sunday,
+				$two_weeks_ago_this_sunday,
+				$one_week_ago_this_sunday,
+				$one_week_ago_this_sunday,
+				$this_sunday,
+				$two_weeks_ago_this_sunday,
+				$one_week_ago_this_sunday
 			) );
 		}
 	}
