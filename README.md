@@ -11,7 +11,7 @@ The RESTful API for posting a user score is available at the following location:
 
 /public_html/user.php
 
-It will expect a "signed_request" parameter, and a "score" parameter, in a POST request. It returns the result of the request as a JSON string. If the returned "error_code" parameter equals 0, then the request was successful.
+It will expect "signed_request", "score", and "signature" parameters, in a POST request. It returns the result of the request as a JSON string. If the returned "error_code" parameter equals 0, then the request was successful.
 
 You can test the user.php API by using the form on the page found at the URL dustinhendricks.com/kixeye/userTest.php.
 
