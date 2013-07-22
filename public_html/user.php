@@ -9,7 +9,7 @@
 	
 	$facebook_signed_request = new FacebookSignedRequest( $_REQUEST['signed_request'] );
 	
-	if ( !$facebook_signed_request->isValid() ) {
+	if ( !$facebook_signed_request->isValid() ) { // is it even necessary to check facebook signed request validity since we are signing the request as a whole ourselves?
 		$response->errorCode = '1';
 		$response->errorString = 'Invalid Facebook signed request.';
 	} else {
